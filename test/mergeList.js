@@ -1,4 +1,4 @@
-import immup from '../src/immup';
+import immup from '../src';
 import test from 'ava';
 
 test('merge object in array', t => {

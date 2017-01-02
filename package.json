@@ -2,7 +2,7 @@
   "name": "immup",
   "version": "2.2.1",
   "description": "Update deeply nested objects/arrays without changing the original source",
-  "main": "lib/immup.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hokaccha/immup.git"

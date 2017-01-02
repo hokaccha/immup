@@ -1,4 +1,4 @@
-import immup from '../src/immup';
+import immup from '../src';
 import test from 'ava';
 
 test('update changing the original source', t => {

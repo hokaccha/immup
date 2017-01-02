@@ -1,6 +1,6 @@
-import immup, { Immup } from '../src/immup';
+import immup, { Immup } from '../src';
 import test from 'ava';
 
-test('immup', t => {
+test('Immup', t => {
   t.truthy(immup({}) instanceof Immup);
 });
