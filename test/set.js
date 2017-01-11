@@ -46,3 +46,9 @@ test('throw error when keys is not defined', t => {
   t.throws(() => Immup.set({ a: { b: { c: 'd' } } }, 'a.x', {}), 'a.x is not a object or array');
   t.throws(() => Immup.set({ a: [1, 2, 3] }, 'a.10', {}), 'a.10 is not a object or array');
 });
+
+test('value is false', t => {
+  let state = { a: false };
+  let result = Immup.set(state, 'a', true);
+  t.deepEqual(result, { a: true });
+});

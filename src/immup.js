@@ -5,7 +5,7 @@ export default class Immup {
     }
 
     return dig(source, keys, (o, key) => {
-      if (!Array.isArray(o) && !isPlainObject(o) || !o[key]) {
+      if (!Array.isArray(o) && !isPlainObject(o) || !(key in o)) {
         throw new Error(`${keys} is not a object or array`);
       }
 
