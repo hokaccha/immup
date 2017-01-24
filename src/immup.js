@@ -31,6 +31,11 @@ export default class Immup {
   }
 
   static merge(source, keys, value) {
+    if (arguments.length === 2) {
+      value = keys;
+      keys = null;
+    }
+
     return Immup.set(source, keys, obj => {
       if (!isPlainObject(obj)) {
         throw new Error(`${keys} is not a object`);
@@ -78,8 +83,8 @@ export default class Immup {
     return this;
   }
 
-  merge(keys, value) {
-    this.source = Immup.merge(this.source, keys, value);
+  merge(...args) {
+    this.source = Immup.merge(this.source, ...args);
     return this;
   }
 

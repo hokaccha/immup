@@ -14,6 +14,7 @@ test('chain', t => {
     .push('obj.arr', 4, 5)
     .unshift('obj.arr', 6, 7)
     .merge('obj.foo', { a: 'b', c: 'd' })
+    .merge({ obj2: 'val' })
     .delete('obj.foo.c')
     .end();
 
@@ -23,6 +24,7 @@ test('chain', t => {
       arr: [6, 7, 1, 2, 3, 4, 5],
       foo: { bar: 'baz', a: 'b' },
     },
+    obj2: 'val',
   });
   t.not(state, result);
 });
