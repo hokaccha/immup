@@ -1,4 +1,4 @@
-import Immup from '../src/immup';
+import immup from '../src/immup';
 import test from 'ava';
 
 test('chain', t => {
@@ -9,13 +9,13 @@ test('chain', t => {
       foo: { bar: 'baz' },
     },
   };
-  let result = Immup.chain(state)
+  let result = immup(state)
     .set('obj.a', 'x')
-    .push('obj.arr', 4, 5)
-    .unshift('obj.arr', 6, 7)
+    .append('obj.arr', 4, 5)
+    .prepend('obj.arr', 6, 7)
     .merge('obj.foo', { a: 'b', c: 'd' })
     .merge({ obj2: 'val' })
-    .delete('obj.foo.c')
+    .del('obj.foo.c')
     .end();
 
   t.deepEqual(result, {

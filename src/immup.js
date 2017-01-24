@@ -1,5 +1,9 @@
-export default class Immup {
-  static set(source, keys, value) {
+export default function immup(source) {
+  return new Immup(source);
+}
+
+Object.assign(immup, {
+  set(source, keys, value) {
     if (!keys) {
       return typeof value === 'function' ? value(source) : source;
     }
@@ -18,9 +22,9 @@ export default class Immup {
         }
       });
     });
-  }
+  },
 
-  static delete(source, keys) {
+  del(source, keys) {
     return dig(source, keys, (o, key) => {
       if (!Array.isArray(o) && !isPlainObject(o)) {
         throw new Error(`${keys} is not a object or array`);
@@ -28,74 +32,48 @@ export default class Immup {
 
       return filter(o, (v, k) => key !== k);
     });
-  }
+  },
 
-  static merge(source, keys, value) {
+  merge(source, keys, value) {
     if (arguments.length === 2) {
       value = keys;
       keys = null;
     }
 
-    return Immup.set(source, keys, obj => {
+    return immup.set(source, keys, obj => {
       if (!isPlainObject(obj)) {
         throw new Error(`${keys} is not a object`);
       }
 
       return deepMerge(obj, value);
     });
-  }
+  },
 
-  static push(source, keys, ...value) {
-    return Immup.set(source, keys, arr => {
+  append(source, keys, ...value) {
+    return immup.set(source, keys, arr => {
       if (!Array.isArray(arr)) {
         throw new Error(`${keys} is not a array`);
       }
 
       return arr.concat(value);
     });
-  }
+  },
 
-  static unshift(source, keys, ...value) {
-    return Immup.set(source, keys, arr => {
+  prepend(source, keys, ...value) {
+    return immup.set(source, keys, arr => {
       if (!Array.isArray(arr)) {
         throw new Error(`${keys} is not a array`);
       }
 
       return value.concat(arr);
     });
-  }
+  },
+});
 
-  static chain(source) {
-    return new Immup(source);
-  }
-
+// private functions
+class Immup {
   constructor(source) {
     this.source = source;
-  }
-
-  set(keys, value) {
-    this.source = Immup.set(this.source, keys, value);
-    return this;
-  }
-
-  delete(keys) {
-    this.source = Immup.delete(this.source, keys);
-    return this;
-  }
-
-  merge(...args) {
-    this.source = Immup.merge(this.source, ...args);
-    return this;
-  }
-
-  push(keys, ...value) {
-    this.source = Immup.push(this.source, keys, ...value);
-    return this;
-  }
-
-  unshift(keys, ...value) {
-    this.source = Immup.unshift(this.source, keys, ...value);
-    return this;
   }
 
   end() {
@@ -103,7 +81,13 @@ export default class Immup {
   }
 }
 
-// private functions
+for (let method in immup) {
+  Immup.prototype[method] = function(...args) {
+    this.source = immup[method](this.source, ...args);
+    return this;
+  };
+}
+
 function parseKeys(keys) {
   if (Array.isArray(keys)) {
     return keys.slice();
