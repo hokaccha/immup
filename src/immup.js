@@ -70,8 +70,7 @@ Object.assign(immup, {
   },
 });
 
-// private functions
-class Immup {
+export class Immup {
   constructor(source) {
     this.source = source;
   }
@@ -88,6 +87,7 @@ for (let method in immup) {
   };
 }
 
+// private functions
 function parseKeys(keys) {
   if (Array.isArray(keys)) {
     return keys.slice();
