@@ -49,6 +49,24 @@ Object.assign(immup, {
     });
   },
 
+  mergeList(source, keys, value, comparator) {
+    return immup.set(source, keys, arr => {
+      if (!Array.isArray(arr)) {
+        throw new Error(`${keys} is not a array`);
+      }
+
+      return value.map(v => {
+        let target = arr.filter(v2 => comparator(v, v2))[0];
+        if (target === undefined) {
+          return v;
+        }
+        else {
+          return deepMerge(target, v);
+        }
+      });
+    });
+  },
+
   append(source, keys, ...value) {
     return immup.set(source, keys, arr => {
       if (!Array.isArray(arr)) {
