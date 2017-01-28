@@ -35,7 +35,7 @@ let nextState = immup.set(state, `todos.${index}.completed`, true);
 let nextState = immup.merge(state, `todos.${index}`, { completed: true });
 
 // delete element
-let nextState = immup.delete(state, `todos.${index}`);
+let nextState = immup.del(state, `todos.${index}`);
 ```
 
 See [tests](https://github.com/hokaccha/immup/tree/master/test) for more examples.
