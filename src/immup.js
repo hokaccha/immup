@@ -9,8 +9,8 @@ Object.assign(immup, {
     }
 
     return dig(source, keys, (o, key) => {
-      if (!Array.isArray(o) && !isPlainObject(o) || !(key in o)) {
-        throw new Error(`${keys} is not a object or array`);
+      if (!(key in o)) {
+        return Object.assign({ [key]: value }, o);
       }
 
       return map(o, (v, k) => {
@@ -25,13 +25,7 @@ Object.assign(immup, {
   },
 
   del(source, keys) {
-    return dig(source, keys, (o, key) => {
-      if (!Array.isArray(o) && !isPlainObject(o)) {
-        throw new Error(`${keys} is not a object or array`);
-      }
-
-      return filter(o, (v, k) => key !== k);
-    });
+    return dig(source, keys, (o, key) => filter(o, (v, k) => key !== k));
   },
 
   merge(source, keys, value) {
@@ -123,13 +117,13 @@ function isPlainObject(obj) {
 }
 
 function dig(obj, keys, callback) {
-  keys = parseKeys(keys);
+  let _keys = parseKeys(keys);
 
   let walk = (o) => {
     let clone;
-    let key = keys.shift();
+    let key = _keys.shift();
 
-    if (keys.length === 0) {
+    if (_keys.length === 0) {
       return callback(o, Array.isArray(o) ? Number(key) : key);
     }
 
@@ -140,7 +134,9 @@ function dig(obj, keys, callback) {
       clone = Object.assign({}, o);
     }
     else {
-      throw new Error(`${keys} is not a object or array`);
+      let origKeys = parseKeys(keys);
+      let currentKeys = origKeys.slice(0, origKeys.length - _keys.length);
+      throw new Error(`${currentKeys.join('.')} is not a object or array`);
     }
 
     clone[key] = walk(o[key]);

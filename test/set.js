@@ -41,10 +41,15 @@ test('keys as array', t => {
   t.deepEqual(result, { a: { 'b.c': 'x' } });
 });
 
-test('throw error when keys is not defined', t => {
-  t.throws(() => immup.set({ a: 1 }, 'b', {}), 'b is not a object or array');
-  t.throws(() => immup.set({ a: { b: { c: 'd' } } }, 'a.x', {}), 'a.x is not a object or array');
-  t.throws(() => immup.set({ a: [1, 2, 3] }, 'a.10', {}), 'a.10 is not a object or array');
+test('end of path is not defined', t => {
+  let state = { a: 'b' };
+  let result = immup.set(state, 'c', 'd');
+  t.deepEqual(result, { a: 'b', c: 'd' });
+});
+
+test('throw error when key of path is not defined', t => {
+  t.throws(() => immup.set({ a: 1 }, 'a.b.c', {}), 'a.b is not a object or array');
+  t.throws(() => immup.set({ a: 1 }, 'a.b.c.d.e', {}), 'a.b is not a object or array');
 });
 
 test('value is false', t => {
