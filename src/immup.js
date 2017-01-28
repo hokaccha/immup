@@ -3,12 +3,12 @@ export default function immup(source) {
 }
 
 Object.assign(immup, {
-  set(source, keys, value) {
-    if (!keys) {
+  set(source, path, value) {
+    if (!path) {
       return typeof value === 'function' ? value(source) : source;
     }
 
-    return dig(source, keys, (o, key) => {
+    return dig(source, path, (o, key) => {
       if (!(key in o)) {
         return Object.assign({ [key]: value }, o);
       }
@@ -24,29 +24,29 @@ Object.assign(immup, {
     });
   },
 
-  del(source, keys) {
-    return dig(source, keys, (o, key) => filter(o, (v, k) => key !== k));
+  del(source, path) {
+    return dig(source, path, (o, key) => filter(o, (v, k) => key !== k));
   },
 
-  merge(source, keys, value) {
+  merge(source, path, value) {
     if (arguments.length === 2) {
-      value = keys;
-      keys = null;
+      value = path;
+      path = null;
     }
 
-    return immup.set(source, keys, obj => {
+    return immup.set(source, path, obj => {
       if (!isPlainObject(obj)) {
-        throw new Error(`${keys} is not a object`);
+        throw new Error(`${path} is not a object`);
       }
 
       return deepMerge(obj, value);
     });
   },
 
-  mergeList(source, keys, value, comparator) {
-    return immup.set(source, keys, arr => {
+  mergeList(source, path, value, comparator) {
+    return immup.set(source, path, arr => {
       if (!Array.isArray(arr)) {
-        throw new Error(`${keys} is not a array`);
+        throw new Error(`${path} is not a array`);
       }
 
       return value.map(v => {
@@ -61,20 +61,20 @@ Object.assign(immup, {
     });
   },
 
-  append(source, keys, ...value) {
-    return immup.set(source, keys, arr => {
+  append(source, path, ...value) {
+    return immup.set(source, path, arr => {
       if (!Array.isArray(arr)) {
-        throw new Error(`${keys} is not a array`);
+        throw new Error(`${path} is not a array`);
       }
 
       return arr.concat(value);
     });
   },
 
-  prepend(source, keys, ...value) {
-    return immup.set(source, keys, arr => {
+  prepend(source, path, ...value) {
+    return immup.set(source, path, arr => {
       if (!Array.isArray(arr)) {
-        throw new Error(`${keys} is not a array`);
+        throw new Error(`${path} is not a array`);
       }
 
       return value.concat(arr);
@@ -100,15 +100,15 @@ for (let method in immup) {
 }
 
 // private functions
-function parseKeys(keys) {
-  if (Array.isArray(keys)) {
-    return keys.slice();
+function parsePath(path) {
+  if (Array.isArray(path)) {
+    return path.slice();
   }
-  else if (typeof keys === 'string') {
-    return keys.split('.');
+  else if (typeof path === 'string') {
+    return path.split('.');
   }
   else {
-    throw new Error(`Invalid keys type: ${keys}`);
+    throw new Error(`Invalid path type: ${path}`);
   }
 }
 
@@ -116,14 +116,14 @@ function isPlainObject(obj) {
   return obj instanceof Object && Object.getPrototypeOf(obj) === Object.prototype;
 }
 
-function dig(obj, keys, callback) {
-  let _keys = parseKeys(keys);
+function dig(obj, path, callback) {
+  let keys = parsePath(path);
 
   let walk = (o) => {
     let clone;
-    let key = _keys.shift();
+    let key = keys.shift();
 
-    if (_keys.length === 0) {
+    if (keys.length === 0) {
       return callback(o, Array.isArray(o) ? Number(key) : key);
     }
 
@@ -134,8 +134,8 @@ function dig(obj, keys, callback) {
       clone = Object.assign({}, o);
     }
     else {
-      let origKeys = parseKeys(keys);
-      let currentKeys = origKeys.slice(0, origKeys.length - _keys.length);
+      let origKeys = parsePath(path);
+      let currentKeys = origKeys.slice(0, origKeys.length - keys.length);
       throw new Error(`${currentKeys.join('.')} is not a object or array`);
     }
 
