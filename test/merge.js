@@ -16,8 +16,8 @@ test('merge object to the original source', t => {
 });
 
 test('merge object recursively', t => {
-  let state = { a: { b: 1, c: 2 } };
-  let result = immup.merge(state, { a: { b: 3 } });
-  t.deepEqual(result, { a: { b: 3, c: 2 } });
+  let state = { a: { b: null, c: 2 } };
+  let result = immup.merge(state, { a: { b: { x: 'y' } } });
+  t.deepEqual(result, { a: { b: { x: 'y' }, c: 2 } });
   t.not(state, result);
 });

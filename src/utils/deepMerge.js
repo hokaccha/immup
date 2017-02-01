@@ -2,7 +2,7 @@ import isPlainObject from './isPlainObject';
 
 export default function deepMerge(target, source) {
   if (!isPlainObject(target) || !isPlainObject(source)) {
-    return target;
+    return source;
   }
 
   return Object.keys(source).reduce((acc, key) => {
