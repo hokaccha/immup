@@ -1,12 +1,18 @@
+// @flow
+import type { State, Path } from './types';
 import dig from './utils/dig';
 import map from './utils/map';
 
-export default function set(source, path, value) {
+export default function set<T: State>(
+  state: T,
+  path: Path,
+  value: any
+): T {
   if (!path) {
-    return typeof value === 'function' ? value(source) : source;
+    return typeof value === 'function' ? value(state) : state;
   }
 
-  return dig(source, path, (o, key) => {
+  return dig(state, path, (o, key) => {
     if (!(key in o)) {
       return Object.assign({ [key]: value }, o);
     }

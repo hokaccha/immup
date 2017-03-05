@@ -1,3 +1,4 @@
+// @flow
 import immup from '../src';
 import test from 'ava';
 

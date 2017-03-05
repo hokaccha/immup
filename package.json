@@ -13,10 +13,11 @@
     "src"
   ],
   "scripts": {
-    "build": "babel src --out-dir lib --source-maps",
+    "build": "bin/build.sh",
     "prepublish": "npm run build",
     "test": "ava -v test",
     "lint": "eslint --max-warnings 0 --ignore-path .eslintignore .",
+    "flow": "flow",
     "ci": "npm test && npm run lint"
   },
   "bugs": {
@@ -27,15 +28,17 @@
   "license": "MIT",
   "devDependencies": {
     "@hokaccha/eslint-config": "^2.1.0",
-    "ava": "^0.17.0",
+    "ava": "^0.18.2",
     "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.1.1",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-es2015": "^6.18.0",
-    "eslint": "^3.12.2"
+    "eslint": "^3.12.2",
+    "flow-bin": "^0.40.0"
   },
   "ava": {
-    "require": [
-      "babel-register"
-    ]
+    "require": "babel-register",
+    "babel": "inherit"
   }
 }

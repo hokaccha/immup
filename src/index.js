@@ -1,8 +1,10 @@
+// @flow
+import type { State } from './types';
 import methods from './methods';
 import Immup from './Immup';
 
-function immup(source) {
-  return new Immup(source);
+function immup<T: State>(state: T): Immup<T> {
+  return new Immup(state);
 }
 
 Object.assign(immup, { Immup }, methods);

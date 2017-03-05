@@ -1,18 +1,40 @@
+// @flow
+import type { State, Path } from './types';
 import methods from './methods';
 
-export default class Immup {
-  constructor(source) {
-    this.source = source;
+export default class Immup<T: State> {
+  state: T;
+
+  constructor(state: T) {
+    this.state = state;
   }
 
-  end() {
-    return this.source;
-  }
-}
-
-for (let name in methods) {
-  Immup.prototype[name] = function(...args) {
-    this.source = methods[name](this.source, ...args);
+  set(path: Path, value: any): this {
+    this.state = methods.set(this.state, path, value);
     return this;
-  };
+  }
+
+  del(path: Path): this {
+    this.state = methods.del(this.state, path);
+    return this;
+  }
+
+  merge(path: Path, value: any): this {
+    this.state = methods.merge(this.state, path, value);
+    return this;
+  }
+
+  append(path: Path, ...value: Array<any>): this {
+    this.state = methods.append(this.state, path, ...value);
+    return this;
+  }
+
+  prepend(path: Path, ...value: Array<any>): this {
+    this.state = methods.prepend(this.state, path, ...value);
+    return this;
+  }
+
+  end(): T {
+    return this.state;
+  }
 }

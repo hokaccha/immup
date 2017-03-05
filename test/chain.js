@@ -1,3 +1,4 @@
+// @flow
 import immup from '../src';
 import test from 'ava';
 
@@ -14,7 +15,7 @@ test('chain', t => {
     .append('obj.arr', 4, 5)
     .prepend('obj.arr', 6, 7)
     .merge('obj.foo', { a: 'b', c: 'd' })
-    .merge({ obj2: 'val' })
+    .merge(null, { obj2: 'val' })
     .del('obj.foo.c')
     .end();
 

@@ -1,3 +1,4 @@
+// @flow
 import set from './set';
 import del from './del';
 import merge from './merge';
