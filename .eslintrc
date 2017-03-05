@@ -1,7 +1,14 @@
 {
   "env": { mocha: true },
   "parser": "babel-eslint",
+  "plugins": [
+    "flow-vars"
+  ],
   "extends": [
     "@hokaccha/eslint-config"
-  ]
+  ],
+  "rules": {
+    "flow-vars/define-flow-type": 1,
+    "flow-vars/use-flow-type": 1
+  }
 }
