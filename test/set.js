@@ -17,14 +17,14 @@ test('update with nested path', t => {
   t.not(state, result);
 });
 
-test('update a array', t => {
+test('update an array', t => {
   let state = { a: { b: [1, 2, 3] } };
   let result = immup.set(state, 'a.b.1', 100);
   t.deepEqual(result, { a: { b: [1, 100, 3] } });
   t.not(state.a.b, result.a.b);
 });
 
-test('update a item of array', t => {
+test('update an item of array', t => {
   let state = { a: { b: [{ id: 1 }, { id: 2 }] } };
   let result = immup.set(state, 'a.b.1.id', 100);
   t.deepEqual(result, { a: { b: [{ id: 1 }, { id: 100 }] } });
@@ -36,10 +36,10 @@ test('update with callback', t => {
   t.deepEqual(result, { a: 2 });
 });
 
-test('keys as array', t => {
-  let state = { a: { 'b.c': 'd' } };
-  let result = immup.set(state, ['a', 'b.c'], 'x');
-  t.deepEqual(result, { a: { 'b.c': 'x' } });
+test('escape dot', t => {
+  let state = { 'f@f': { 'b.c': 'd' } };
+  let result = immup.set(state, 'f@f.b\\.c', 'x');
+  t.deepEqual(result, { 'f@f': { 'b.c': 'x' } });
 });
 
 test('end of path is not defined', t => {

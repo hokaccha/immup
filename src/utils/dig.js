@@ -32,11 +32,8 @@ export default function dig(obj, path, callback) {
 }
 
 function parsePath(path) {
-  if (Array.isArray(path)) {
-    return path.slice();
-  }
-  else if (typeof path === 'string') {
-    return path.split('.');
+  if (typeof path === 'string') {
+    return (path.match(/(\\\.|[^.])+/g) || []).map(s => s.replace(/\\\./g, '.'));
   }
   else {
     throw new Error(`Invalid path type: ${path}`);
