@@ -5,11 +5,11 @@ import isPlainObject from './utils/isPlainObject';
 import deepMerge from './utils/deepMerge';
 
 export default function merge<T: State>(
-  source: T,
+  state: T,
   path: Path,
   value: any
 ): T {
-  return set(source, path, obj => {
+  return set(state, path, obj => {
     if (!isPlainObject(obj)) {
       throw new Error('target is not an object');
     }

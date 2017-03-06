@@ -2,7 +2,7 @@
 import immup from '../src';
 import test from 'ava';
 
-test('update changing the original source', t => {
+test('update changing the original state', t => {
   let state = { a: 'b', c: { a: 'b' } };
   let result = immup.set(state, 'a', 'x');
   t.deepEqual(result, { a: 'x', c: { a: 'b' } });

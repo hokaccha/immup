@@ -2,7 +2,7 @@
 import immup from '../src';
 import test from 'ava';
 
-test('delete a property without changing the original source', t => {
+test('delete a property without changing the original state', t => {
   let state = { a: 'b', c: { a: 'b' } };
   let result = immup.del(state, 'c.a');
   t.deepEqual(result, { a: 'b', c: {} });

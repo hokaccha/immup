@@ -3,11 +3,11 @@ import type { State, Path } from './types';
 import set from './set';
 
 export default function append<T: State>(
-  source: T,
+  state: T,
   path: Path,
   ...value: Array<any>
 ): T {
-  return set(source, path, arr => {
+  return set(state, path, arr => {
     if (!Array.isArray(arr)) {
       throw new Error('target is not an array');
     }
