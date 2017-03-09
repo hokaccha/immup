@@ -1,3 +1,3 @@
 // @flow
 export type State = { [key: string]: any } | Array<any>;
-export type Path = string | null;
+export type Path = ?string;
