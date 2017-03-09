@@ -18,7 +18,7 @@
     "test": "ava -v test",
     "lint": "eslint --max-warnings 0 --ignore-path .eslintignore .",
     "flow": "flow",
-    "ci": "flow && npm run lint npm test"
+    "ci": "npm run flow && npm run lint && npm test"
   },
   "bugs": {
     "url": "https://github.com/hokaccha/immup/issues"
