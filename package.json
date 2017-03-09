@@ -1,6 +1,6 @@
 {
   "name": "immup",
-  "version": "2.2.3",
+  "version": "3.0.0",
   "description": "Update deeply nested objects/arrays without changing the original source",
   "main": "lib/index.js",
   "repository": {
