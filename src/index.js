@@ -7,11 +7,6 @@ function immup<T: State>(state: T): Immup<T> {
   return new Immup(state);
 }
 
-function isImmup(obj: any): boolean {
-  return obj instanceof Immup;
-}
+Object.assign(immup, { Immup }, methods);
 
-Object.assign(immup, { isImmup }, methods);
-
-export type { Immup };
 export default immup;

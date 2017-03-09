@@ -234,16 +234,8 @@ immup(state)
 //     { title: 'new', completed: true },
 //   ],
 // }
-```
 
-### immup.isImmup(obj)
-
-```javascript
-import immup from 'immup';
-
-immup.isImmup(immup(state)); //=> true
-immup.isImmup(immup); //=> false
-immup.isImmup(state); //=> false
+immup(state) instanceof immup.Immup; //=> true
 ```
 
 ## Similar modules
