@@ -1,8 +1,7 @@
-// @flow
-import type { State, Path } from './types';
-import methods from './methods';
+import { State, Path } from "./types";
+import methods from "./methods";
 
-export default class Immup<T: State> {
+export default class Immup<T extends State> {
   state: T;
 
   constructor(state: T) {

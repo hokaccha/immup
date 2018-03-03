@@ -1,6 +1,6 @@
-import isPlainObject from './isPlainObject';
+import isPlainObject from "./isPlainObject";
 
-export default function deepMerge(target, source) {
+export default function deepMerge(target: any, source: any): any {
   if (!isPlainObject(target) || !isPlainObject(source)) {
     return source;
   }
@@ -9,11 +9,9 @@ export default function deepMerge(target, source) {
     let value;
     if (!isPlainObject(source[key])) {
       value = source[key];
-    }
-    else if (key in acc) {
+    } else if (key in acc) {
       value = deepMerge(acc[key], source[key]);
-    }
-    else {
+    } else {
       value = Object.assign({}, source[key]);
     }
     return Object.assign({}, acc, { [key]: value });
